@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { addEntry } from '@/components/actions'
+import axios from 'axios'
 
 // Define the UserSchema with email, password, and name
 const UserSchema = z.object({
@@ -30,7 +31,11 @@ export default function RhfWithAction() {
   })
 
   const processForm: SubmitHandler<Inputs> = async data => {
-    const result = await addEntry(data)
+    // isso daqui é lixo
+    // const result = await addEntry(data)
+
+    // É simples, basta fazer esse comando e ele vai chamar o POST em /api/users (o código q vai rodar vai ser o q está no route.ts)
+    const { data: result } = await axios.post('/api/users', data)
 
     if (!result) {
       console.log('Something went wrong')
