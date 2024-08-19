@@ -1,29 +1,24 @@
-"use client"
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+"use client";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Dados() {
-    const [dados, setDados] = useState<{ id: number, name: string }[]>([]);
+  const [dados, setDados] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            // const response = await fetch('/api/users');
-            // const result = await response.json();
-            // setDados(result);
-    
-            // sempre usa o axios, é mais fácil 
-            const { data } = await axios.get("/api/users");
-            setDados(data);
-        }
+  useEffect(() => {
+    axios
+      .get(`/api/users`)
+      .then((response) => {
+        setDados(response.data);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
-        fetchData();
-    }, []);
-
-    return (
-        <ul className='text-black'>
-            {dados.map((user) => (
-                <li key={user.id}>{user.name}</li>
-            ))}
-        </ul>
-    );
+  return (
+    <ul className="text-black">
+      {dados.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
 }
